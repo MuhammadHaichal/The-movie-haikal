@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title> {{ context.response_data.title }}</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="css/style.css" rel="stylesheet" />
+
+  {% include 'snippets/include/style/styles.html' %}
+</head>
+
+<body>
+  <!-- navbar start -->
+  {% include 'snippets/navbar.html' %}
+  <!-- navbar end -->
+
+  <div class="container-fluid my-3 ">
+    {% for item in context.response_data %}
+    <div class="card mb-3" style="max-width: 500px;">
+      <div class="row g-0">
+        <div class="col-3">
+          <img width="200" height="50" src="https://image.tmdb.org/t/p/w200{{item.poster_path}}"
+            class="img-fluid rounded-start" alt="poster path" />
+        </div>
+        <div class="col-9">
+          <div class="card-body">
+            <h5 class="text-truncate fw-bold">
+              <a class="card-title text-decoration-none" href="details/{{ item.id }}">{{ item.title}}</a>
+            </h5>
+            <h6 class="text-body-secondary">{{ item.release_date}}</h6>
+            <p class="card-text">
+              <small class="text-body-secondary">{{ item.overview|truncatechars:100 }}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+
+  {% include 'snippets/include/script/script.html' %}
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>FILM DUNIA </title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  {% include 'snippets/include/style/styles.html' %}
+</head>
+
+<body>
+  <!-- navbar start -->
+  {% include 'snippets/navbar.html' %}
+  <!-- navbar end -->
+
+  <!-- landing page -->
+  <section class="container-fluid bg-dark text-light h-75">
+    <div class="mx-2">
+      <div class="text-left py-5">
+        <div>
+          <h2 class="display-4 fw-bold">Film Dunia</h2>
+          <p class="text-lead mw-50">
+            Lorem ipsum dolor sit amet, officia excepteur ex fugiat
+            reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit
+            ex esse exercitation amet. Nisi anim cupidatat excepteur officia.
+          </p>
+        </div>
+      </div>
+      <!-- for searching film -->
+      <div class="pb-5">
+        <form class="form" method="POST">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-8">
+              {% for forms in context.form %}
+              {{ forms }}
+              {% endfor %}
+            </div>
+            <div class="col-4">
+              <button class="btn rounded btn-primary" type="submit">
+                search
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <!-- landing page end -->
+
+  <!-- content for populer movie  -->
+  <section class="container-fluid my-2">
+    <div class="my-3">
+      <h2 class="text-capitalize" style="font-family: Poppins, sans-serif;">
+        popular movies
+      </h2>
+    </div>
+    <div>
+      <div class="swiper" style="height: 300px;">
+        <div class="swiper-wrapper">
+          {% for item in context.movie_kids %}
+          <div class="swiper-slide">
+            <div class="card" style="width: 18rem;">
+              <img width="200" height="200" src="https://image.tmdb.org/t/p/w200{{item.poster_path}}"
+                class="card-img-top" alt="poster path" />
+              <div class="card-body">
+                <h5 class="card-title text-truncate" style="font-family: Poppins, sans-serif;">
+                  <a class="card-title text-decoration-none" href="details/{{ item.id }}">
+                    {{ item.title }}
+                  </a>
+                </h5>
+                <p class="card-text">{{ item.release_date }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- bootstarp javascript -->
+  {% include 'snippets/include/script/script.html' %}
+
+  <!-- swiper javascript -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script type="module">
+    const swiper = new Swiper(".swiper", {
+      // Optional parameters
+      direction: "horizontal",
+      autoplay: {
+        delay: 1800,
+      },
+
+      breakpoints: {
+        // when window width is >= 320px
+        320: {
+          slidesPerView: 1.5,
+          spaceBetween: 20,
+        },
+        // when window width is >= 480px
+        480: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+        },
+        // when window width is >= 640px
+        640: {
+          slidesPerView: 3,
+          spaceBetween: 40,
+        },
+      },
+
+      // and if we meed pagination
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    });
+  </script>
+</body>
+
+</html>

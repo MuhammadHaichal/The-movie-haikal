@@ -1,0 +1,6 @@
+lib/
+lib64
+.mypy*
+**/__pycache__/
+.env
+db.sqlite3
