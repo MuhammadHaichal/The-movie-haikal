@@ -1,10 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
-  <title>FILM DUNIA </title>
+  <title>{{ context.title }}</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- custom css -->
+  <style>
+    #landingPage {
+      background: url(https://screenvisionmedia.com/wp-content/uploads/2015/09/movie-bg.jpg) no-repeat;
+    }
+
+    .icons {
+      font-size: 1.5em;
+      color: cornflowerblue;
+    }
+
+    a:hover {
+      color: cornflowerblue;
+    }
+
+    .bg-dark-smooth {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
 
   {% include 'snippets/include/style/styles.html' %}
 </head>
@@ -15,11 +35,13 @@
   <!-- navbar end -->
 
   <!-- landing page -->
-  <section class="container-fluid bg-dark text-light h-75">
+  <section id="landingPage" class="container-fluid shadow-lg p-3 mb-5 bg-body rounded text-light h-75">
     <div class="mx-2">
-      <div class="text-left py-5">
+      <div class="container text-left py-5">
         <div>
-          <h2 class="display-4 fw-bold">Film Dunia</h2>
+          <h2 class="display-4 fw-bold">
+            Selamat <span style="color: var(--bs-warning)">Datang</span>
+          </h2>
           <p class="text-lead mw-50">
             Lorem ipsum dolor sit amet, officia excepteur ex fugiat
             reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit
@@ -27,45 +49,44 @@
           </p>
         </div>
       </div>
-      <!-- for searching film -->
-      <div class="pb-5">
-        <form class="form" method="POST">
-          {% csrf_token %}
-          <div class="row g-3">
-            <div class="col-8">
-              {% for forms in context.form %}
-              {{ forms }}
-              {% endfor %}
-            </div>
-            <div class="col-4">
-              <button class="btn rounded btn-primary" type="submit">
-                search
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
   </section>
   <!-- landing page end -->
 
+  <!-- about us -->
+  <section class="container">
+    <div class="p-3 text-center">
+      <h2>Tentang <span style="color: var(--bs-warning)">Kami</span></h2>
+
+      <p class="card-body-secondary">
+        Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
+        cillum sint consectetur cupidatat, Lorem ipsum dolor sit amet, qui
+        minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+      </p>
+    </div>
+  </section>
+  <!-- about us end -->
+
   <!-- content for populer movie  -->
-  <section class="container-fluid my-2">
-    <div class="my-3">
-      <h2 class="text-capitalize" style="font-family: Poppins, sans-serif;">
+  <section class="container my-5">
+    <div class="my-3 d-flex align-items-center">
+      <span>
+        <i class="bi bi-film me-2 icons"></i>
+      </span>
+      <h2 class="text-capitalize" style="font-family: Poppins, sans-serif">
         popular movies
       </h2>
     </div>
     <div>
-      <div class="swiper" style="height: 300px;">
+      <div class="swiper" style="height: 300px">
         <div class="swiper-wrapper">
           {% for item in context.movie_kids %}
           <div class="swiper-slide">
-            <div class="card" style="width: 18rem;">
+            <div class="card bg-dark-smooth" style="width: 18rem">
               <img width="200" height="200" src="https://image.tmdb.org/t/p/w200{{item.poster_path}}"
                 class="card-img-top" alt="poster path" />
               <div class="card-body">
-                <h5 class="card-title text-truncate" style="font-family: Poppins, sans-serif;">
+                <h5 class="card-title text-truncate" style="font-family: Poppins, sans-serif">
                   <a class="card-title text-decoration-none" href="details/{{ item.id }}">
                     {{ item.title }}
                   </a>
@@ -79,35 +100,70 @@
       </div>
     </div>
   </section>
+  <!-- content for populer movie end -->
 
+  <!-- content for drama  -->
+  <section class="container my-5">
+    <div class="my-3 d-flex align-items-center">
+      <span>
+        <i class="bi bi-film me-2 icons"></i>
+      </span>
+      <h2 class="text-capitalize" style="font-family: Poppins, sans-serif">
+        popular Drama
+      </h2>
+    </div>
+    <div>
+      <div class="swiper" style="height: 300px">
+        <div class="swiper-wrapper">
+          {% for items in context.drama_movie %}
+          <div class="swiper-slide">
+            <div class="card bg-dark-smooth" style="width: 18rem">
+              <img width="200" height="200" src="https://image.tmdb.org/t/p/w200{{items.poster_path}}"
+                class="card-img-top" alt="poster path" />
+              <div class="card-body">
+                <h5 class="card-title text-truncate" style="font-family: Poppins, sans-serif">
+                  <a class="card-title text-decoration-none" href="details/{{ items.id }}">
+                    {{ items.name }}
+                  </a>
+                </h5>
+                <p class="card-text">{{ items.first_air_date }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- content for drama end -->
 
   <!-- bootstarp javascript -->
   {% include 'snippets/include/script/script.html' %}
-
   <!-- swiper javascript -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
   <script type="module">
     const swiper = new Swiper(".swiper", {
       // Optional parameters
       direction: "horizontal",
+      loop: true,
       autoplay: {
-        delay: 1800,
+        delay: 2500,
+        disableOnInteraction: false,
       },
-
       breakpoints: {
         // when window width is >= 320px
         320: {
-          slidesPerView: 1.5,
+          slidesPerView: 1,
           spaceBetween: 20,
         },
         // when window width is >= 480px
         480: {
-          slidesPerView: 2,
+          slidesPerView: 1.7,
           spaceBetween: 30,
         },
         // when window width is >= 640px
         640: {
-          slidesPerView: 3,
+          slidesPerView: 2.5,
           spaceBetween: 40,
         },
       },

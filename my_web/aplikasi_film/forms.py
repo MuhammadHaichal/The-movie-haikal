@@ -6,7 +6,7 @@ class SearchMovie(forms.Form):
             widget = forms.TextInput(
                 attrs={
                     'placeholder' : 'drama',
-                    'class' : 'form-control rounded',
+                    'class' : 'form-control me-2',
                     }
                 )
             )

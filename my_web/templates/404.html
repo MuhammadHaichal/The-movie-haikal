@@ -1,17 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
-  <title>halaman tidak ditemukan</title>
+  <title>Page Not Found</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   {% include 'snippets/include/style/styles.html' %}
+
+  <style>
+    body {
+      height: 100%;
+
+    }
+  </style>
 </head>
 
-<body>
-
-  <h2>halaman tidak ditemukan</h2>
+<body> 
+  <div class="d-flex justify-content-center align-items-center">
+    <h1>Page Not Found</h1>
+  </div>
   {% include 'snippets/include/script/script.html' %}
 </body>
 

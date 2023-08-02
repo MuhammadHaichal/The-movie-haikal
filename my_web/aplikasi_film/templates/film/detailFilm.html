@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
 
 <head>
   <title>{{ context.data_detail.title }}</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- custom css -->
+  <style>
+    .backdrop_path {
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      background: url(https://screenvisionmedia.com/wp-content/uploads/2015/09/movie-bg.jpg);
+    }
+
+    a:hover {
+      color: cornflowerblue;
+    }
+  </style>
 
   {% include 'snippets/include/style/styles.html' %}
 </head>
@@ -14,15 +29,194 @@
   {% include 'snippets/navbar.html' %}
   <!-- navbar end -->
 
-  <!-- <div> -->
-  <!--   {% for result in context.data_detail %} -->
-  <!--   <p>{{ result }}</p> -->
-  <!--   {% endfor %} -->
-  <!-- </div> -->
+  <main>
+    <!-- landing page nya -->
+    <section class="backdrop_path">
+      <div class="container">
+        <div class="row my-4 justify-content-sm-center align-items-center">
 
-  <p>{{ context.data_detail }}</p>
+          <div class="col-sm-12 col-md-5 my-4 ">
+            <img class="img-fluid" src="https://image.tmdb.org/t/p/w200{{ context.data_detail.poster_path }}" alt="" />
+          </div>
+
+          <div class="col-sm-12  col-md-7 my-4 ">
+            <h2 class="card-title text-light mb-2">{{ context.data_detail.title}}</h2>
+            <div class="d-flex">
+              <p class="display-6 me-2 ">{{ context.data_detail.release_date }}</p>
+              <span class="display-6">
+                ( {{ context.data_detail.original_language }} )
+              </span>
+            </div>
+            <div class="mb-3">
+              {% for category in context.data_detail.genres %}
+              <span class="card-title text-light me-1">
+                <a class="card-text text-decoration-none" href="">{{ category.name }}</a></span>
+              {% endfor %}
+              <p>{{ context.data_detail.tagline }}</p>
+            </div>
+
+            <p class="card-text text-light">{{ context.data_detail.overview }}</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- serial karakter & pemain -->
+    <section class="container-fluid my-3">
+
+      <div class="row">
+
+        <!-- biografi start  -->
+        <div class="col-sm-12 col-md-7">
+          <div>
+            <h2>Pameran <span style="color: var(--bs-warning);">Unggulan</span></h2>
+          </div>
+          <div>
+            <div class="swiper" style="height: 300px">
+              <div class="swiper-wrapper">
+                {% for item in context.data_detail.casts.cast %}
+                <div class="swiper-slide">
+                  <div class="card bg-dark-smooth" style="width: 12rem">
+                    <img width="200" height="200" src="https://image.tmdb.org/t/p/w200{{item.profile_path}}"
+                      class="card-img-top" alt="poster path" />
+                    <div class="card-body">
+                      <h5 class="card-title text-truncate" style="font-family: Poppins, sans-serif">
+                        <a class="card-title text-decoration-none" href="details/{{ item.id }}">
+                          {{ item.name }}
+                        </a>
+                      </h5>
+                      <p class="card-text text-truncate">{{ item.character }}</p>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- biografi end  -->
+
+        <!-- detail movie start  -->
+        <div class="col-sm-12 col-md-5">
+          <div class="card">
+            <div class="mx-2 mt-2">
+              <section>
+                <p class="fw-bold text-capitalize mb-0">status</p>
+                <p class="text-secondary">{{ context.data_detail.status }}</p>
+              </section>
+
+              <section class="mb-3">
+                <p class="fw bold text-capitalize mb-0">production companies</p>
+                <div class="row">
+                  {% for company in context.data_detail.production_companies %}
+                  <!-- <p>{{ company }}</p> -->
+                  <div class="col-2 ">
+                    <img width="50" height="50" src="https://www.themoviedb.org/t/p/original{{company.logo_path}}" alt="">
+                  </div>
+                  {% endfor %}
+                </div>
+              </section>
+
+              <section>
+                <p class="fw-bold text-capitalize mb-0">bahasa diucapkan</p>
+                <!-- <p class="text-secondary">{{ context.data_detail.spoken_languages }}</p> -->
+                {% for name in context.data_detail.spoken_languages %}
+                <p class="text-secondary">{{ name.name }}</p>
+                {% endfor %}
+              </section>
+
+              <section>
+                <p class="fw-bold text-capitalize mb-0">kata kunci</p>
+                <div class="d-flex flex-wrap">
+                  {% for keyword in context.data_detail.keywords.keywords %}
+                  <p class="text-secondary me-3">
+                    <a class="text-decoration-none" href="">{{ keyword.name }}</a>
+                  </p>
+                  {% endfor %}
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+        <!-- detail movie end  -->
+
+      </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <p>{{ context.data_detail }}</p> -->
+    {% for item in context.data_detail %}
+    <p>{{ item }}</p>
+    {% endfor %}
+  </main>
+
+
+
+
+
 
   {% include 'snippets/include/script/script.html' %}
+
+  <!-- swiper javascript -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script type="module">
+    const swiper = new Swiper(".swiper", {
+      // Optional parameters
+      direction: "horizontal",
+      loop: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        // when window width is >= 320px
+        320: {
+          slidesPerView: 1.4,
+          spaceBetween: 20,
+        },
+        // when window width is >= 480px
+        480: {
+          slidesPerView: 2.4,
+          spaceBetween: 30,
+        },
+        // when window width is >= 640px
+        640: {
+          slidesPerView: 2.4,
+          spaceBetween: 40,
+        },
+      },
+
+      // and if we meed pagination
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    });
+  </script>
 </body>
 
 </html>
